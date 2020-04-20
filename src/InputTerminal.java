@@ -6,6 +6,12 @@ import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 
+/*
+ * A Java IO client number Input Terminal.
+ * The number that gets input decides the amount of messages send through the system.
+ * The messages go from the terminal to the Response Handler then the Actor and finally the Server which echoes the messages back.
+ */
+
 public class InputTerminal {
 
     private Socket clientSocket;
