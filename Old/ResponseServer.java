@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class ResponseServer {
 
     private ServerSocket serverSocket;
 
@@ -14,7 +14,7 @@ public class Server {
 
             serverSocket = new ServerSocket(port);
             while (true)
-                new EchoClientHandler(serverSocket.accept()).start();
+                new Server(serverSocket.accept()).start();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,11 +32,11 @@ public class Server {
         }
     }
 
-    private static class EchoClientHandler extends Thread {
+    private static class Server extends Thread {
 
         private final Socket clientSocket;
 
-        public EchoClientHandler(Socket socket) {
+        public Server(Socket socket) {
             this.clientSocket = socket;
         }
 
@@ -49,14 +49,12 @@ public class Server {
                 while ((inputLine = in.readLine()) != null) {
                     if (".".equals(inputLine)) {
                         out.println("bye");
-                        System.out.println("yeet");
                         break;
                     }
                     if ("hello server".equals(inputLine)) {
                         out.println("hello client");
                     }
                     out.println(inputLine);
-                    System.out.println("woot");
                 }
 
                 in.close();
@@ -70,7 +68,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server server = new Server();
-        server.start(6666);
+        ResponseServer responseServer = new ResponseServer();
+        responseServer.start(6666);
     }
 }

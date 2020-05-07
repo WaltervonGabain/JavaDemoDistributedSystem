@@ -7,9 +7,7 @@ import java.util.Scanner;
 import static org.junit.Assert.assertEquals;
 
 /*
- * A Java IO client number Input Terminal.
- * The number that gets input decides the amount of messages send through the system.
- * The messages go from the terminal to the Response Handler then the Actor and finally the Server which echoes the messages back.
+ * Simple Java socket client that automatically sends messages to the server.
  */
 
 public class InputTerminal {
@@ -30,6 +28,18 @@ public class InputTerminal {
         }
     }
 
+    public void closeConnection() {
+        try {
+
+            out.close();
+            in.close();
+            clientSocket.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String sendMessage(String msg) {
         try {
             out.println(msg);
@@ -42,34 +52,49 @@ public class InputTerminal {
 
     public static void main(String[] args) {
         InputTerminal inputTerminal = new InputTerminal();
-        inputTerminal.startConnection("127.0.0.1", 5555);
 
-        int input;
-        Scanner inputScan = new Scanner(System.in);
-        System.out.println("Enter amount of messages:");
+        int input = 0;
+        int output = 10;
+
+        inputTerminal.startConnection("localhost", 5555);
 
         while (true) {
-            input = inputScan.nextInt();
-            for (int i = input; i > 0; i--) {
 
-                if (inputTerminal.sendMessage("message").equals("message"))
-                    System.out.println("Message send successfully");
+            if (output > 1) {
+                for (int i = output; i > 0; i--) {
 
-                input--;
+                    if (inputTerminal.sendMessage("message").equals("response"))
+                        System.out.println("Message send");
+                    input++;
+
+                    output--;
+                }
+            }
+
+            if (input > 1) {
+                for (int i = input; i > 0; i--) {
+
+                    if (inputTerminal.sendMessage("message").equals("response"))
+                        System.out.println("Message send");
+                    output++;
+
+                    input--;
+                }
             }
         }
     }
 
     @Test
     public void givenClient2_whenServerResponds_thenCorrect() {
-        Actor test3Actor = new Actor();
-        test3Actor.startConnection("127.0.0.1", 5555);
-        String msg1 = test3Actor.sendMessage("hello");
-        String msg2 = test3Actor.sendMessage("world");
-        String terminate = test3Actor.sendMessage(".");
+        InputTerminal testInput = new InputTerminal();
+        testInput.startConnection("localhost", 5555);
 
-        assertEquals(msg1, "Input received");
-        assertEquals(msg2, "Input received");
-        assertEquals(terminate, "Terminated");
+        String msg1 = testInput.sendMessage("message");
+        String msg2 = testInput.sendMessage("message");
+        String terminate = testInput.sendMessage("Terminate");
+
+        assertEquals(msg1, "response");
+        assertEquals(msg2, "response");
+        assertEquals(terminate, "Connection terminated");
     }
 }

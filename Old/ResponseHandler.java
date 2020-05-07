@@ -1,7 +1,6 @@
 import org.junit.Test;
 import java.net.*;
 import java.io.*;
-import java.util.Random;
 import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
@@ -12,7 +11,7 @@ import static org.junit.Assert.assertEquals;
  * If messages are received they will be handed on to the Server which echoes them back to the Actor.
  */
 
-public class Actor {
+public class ResponseHandler {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
@@ -37,6 +36,18 @@ public class Actor {
         return null;
     }
 
+    public void closeConnection() {
+        try {
+
+            out.close();
+            in.close();
+            clientSocket.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void stopConnection() {
         try {
             in.close();
@@ -48,27 +59,30 @@ public class Actor {
     }
 
     public static void main(String[] args) {
-        Actor receiver = new Actor();
-        receiver.startConnection("127.0.0.1", 5555);
+//        ResponseHandler sender = new ResponseHandler();
+//        sender.startConnection("127.0.0.1", 6666);
+//
+//        System.out.println("Actors initiated");
+//        System.out.println("Actors listening for input");
 
-        Actor sender = new Actor();
-        sender.startConnection("127.0.0.1", 6666);
-
-        System.out.println("Actors initiated");
-        System.out.println("Actors listening for input");
-
-        String received;
+        ResponseHandler receiver = new ResponseHandler();
+        String received = "";
         String send;
 
         Scanner inputScan = new Scanner(System.in);
         while (true) {
-            System.out.println("?");
+            receiver.startConnection("127.0.0.1", 5555);
             int input = inputScan.nextInt();
             // ipv requesten, luisteren
 
             if (input == 1) {
-                received = receiver.sendMessage("request");
-                System.out.println(received);
+                System.out.println(input);
+                while (!(received.equals("End"))) {
+                    received = receiver.sendMessage("request");
+                    System.out.println(received);
+                }
+                receiver.stopConnection();
+                input = 0;
             }
             //send = sender.sendMessage(received);
             //System.out.println(send);
@@ -76,8 +90,20 @@ public class Actor {
     }
 
     @Test
+    public void receiveMessages() {
+        String response = "";
+
+        while (!(response.equals("End"))) {
+            ResponseHandler testHandler = new ResponseHandler();
+            testHandler.startConnection("127.0.0.1", 5555);
+            response = testHandler.sendMessage("request");
+            assertEquals("message", response);
+        }
+    }
+
+    @Test
     public void givenGreetingClient_whenServerRespondsWhenStarted_thenCorrect() {
-        Actor client = new Actor();
+        ResponseHandler client = new ResponseHandler();
         client.startConnection("127.0.0.1", 5555);
         String response = client.sendMessage("hello server");
         assertEquals("hello client", response);
@@ -85,7 +111,7 @@ public class Actor {
 
     @Test
     public void givenClient_whenServerEchosMessage_thenCorrect() {
-        Actor client = new Actor();
+        ResponseHandler client = new ResponseHandler();
         client.startConnection("127.0.0.1", 5555);
         String resp1 = client.sendMessage("hello");
         String resp2 = client.sendMessage("world");
@@ -101,7 +127,7 @@ public class Actor {
     @Test
     public void givenClient1_whenServerResponds_thenCorrect() {
         for (int i = 0; i < 3; i++) {
-            Actor client1 = new Actor();
+            ResponseHandler client1 = new ResponseHandler();
             client1.startConnection("127.0.0.1", 6666);
             String msg1 = client1.sendMessage("hello");
             String msg2 = client1.sendMessage("world");
@@ -115,7 +141,7 @@ public class Actor {
 
     @Test
     public void givenClient2_whenServerResponds_thenCorrect() {
-        Actor client2 = new Actor();
+        ResponseHandler client2 = new ResponseHandler();
         client2.startConnection("127.0.0.1", 6666);
         String msg1 = client2.sendMessage("hello");
         String msg2 = client2.sendMessage("world");
