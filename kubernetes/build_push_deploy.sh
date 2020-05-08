@@ -9,7 +9,7 @@ fi
 
 cd ..
 
-cd inputsender
+cd InputSender
 if podman build -t $(minikube ip):5000/inputsender . ; then
   podman push $(minikube ip):5000/inputsender
 fi
