@@ -1,10 +1,5 @@
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.net.*;
 import java.io.*;
-
-import static org.junit.Assert.assertEquals;
 
 /*
  * Simple Java socket client that continuously attempts to sends messages to the server.
@@ -59,19 +54,5 @@ public class InputSender {
             if (inputSender.sendMessage("message").equals("response"))
                 System.out.println("Message send");
         }
-    }
-
-    @Test
-    public void givenClient2_whenServerResponds_thenCorrect() {
-        InputSender testInput = new InputSender();
-        testInput.startConnection("localhost", 5555);
-
-        String msg1 = testInput.sendMessage("message");
-        String msg2 = testInput.sendMessage("message");
-        String terminate = testInput.sendMessage("Terminate");
-
-        Assert.assertEquals(msg1, "response");
-        Assert.assertEquals(msg2, "response");
-        Assert.assertEquals(terminate, "Connection terminated");
     }
 }
