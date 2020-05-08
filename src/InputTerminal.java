@@ -7,7 +7,7 @@ import java.util.Scanner;
 import static org.junit.Assert.assertEquals;
 
 /*
- * Simple Java socket client that automatically sends messages to the server.
+ * Simple Java socket client that continuously attempts to sends messages to the server.
  */
 
 public class InputTerminal {
@@ -53,34 +53,11 @@ public class InputTerminal {
     public static void main(String[] args) {
         InputTerminal inputTerminal = new InputTerminal();
 
-        int input = 0;
-        int output = 10;
-
         inputTerminal.startConnection("localhost", 5555);
 
         while (true) {
-
-            if (output > 1) {
-                for (int i = output; i > 0; i--) {
-
-                    if (inputTerminal.sendMessage("message").equals("response"))
-                        System.out.println("Message send");
-                    input++;
-
-                    output--;
-                }
-            }
-
-            if (input > 1) {
-                for (int i = input; i > 0; i--) {
-
-                    if (inputTerminal.sendMessage("message").equals("response"))
-                        System.out.println("Message send");
-                    output++;
-
-                    input--;
-                }
-            }
+            if (inputTerminal.sendMessage("message").equals("response"))
+                System.out.println("Message send");
         }
     }
 

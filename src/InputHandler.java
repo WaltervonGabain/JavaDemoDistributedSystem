@@ -18,7 +18,6 @@ public class InputHandler {
         try {
 
             serverSocket = new ServerSocket(port);
-
             System.out.println("Server listening for messages");
 
             while (true)
