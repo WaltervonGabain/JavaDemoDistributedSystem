@@ -1,4 +1,4 @@
 FROM openjdk:8
-COPY ./InputSender.java /tmp
+COPY ../../../inputsender/src/InputSender.java /tmp
 WORKDIR /tmp
 ENTRYPOINT ["java", "InputSender"]

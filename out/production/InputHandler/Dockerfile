@@ -1,5 +1,5 @@
 FROM openjdk:8
-COPY ./InputHandler.java /tmp
+COPY ../../../inputhandler/src/InputHandler.java /tmp
 WORKDIR /tmp
 EXPOSE 8010
 ENTRYPOINT ["java", "InputHandler"]
