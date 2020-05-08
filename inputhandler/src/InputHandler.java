@@ -82,6 +82,6 @@ public class InputHandler {
 
     public static void main(String[] args) {
         InputHandler handler = new InputHandler();
-        handler.start(5555);
+        handler.start(8010);
     }
 }

@@ -12,4 +12,6 @@ if podman build -t $(minikube ip):5000/inputhandler . ; then
   podman push $(minikube ip):5000/inputhandler
 fi
 
+cd..
+
 kubectl apply -f .
