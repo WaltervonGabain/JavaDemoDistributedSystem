@@ -1,8 +1,8 @@
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.*;
 import java.io.*;
-import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  * Simple Java socket client that continuously attempts to sends messages to the server.
  */
 
-public class InputTerminal {
+public class InputSender {
 
     private Socket clientSocket;
     private PrintWriter out;
@@ -51,27 +51,27 @@ public class InputTerminal {
     }
 
     public static void main(String[] args) {
-        InputTerminal inputTerminal = new InputTerminal();
+        InputSender inputSender = new InputSender();
 
-        inputTerminal.startConnection("localhost", 5555);
+        inputSender.startConnection("localhost", 5555);
 
         while (true) {
-            if (inputTerminal.sendMessage("message").equals("response"))
+            if (inputSender.sendMessage("message").equals("response"))
                 System.out.println("Message send");
         }
     }
 
     @Test
     public void givenClient2_whenServerResponds_thenCorrect() {
-        InputTerminal testInput = new InputTerminal();
+        InputSender testInput = new InputSender();
         testInput.startConnection("localhost", 5555);
 
         String msg1 = testInput.sendMessage("message");
         String msg2 = testInput.sendMessage("message");
         String terminate = testInput.sendMessage("Terminate");
 
-        assertEquals(msg1, "response");
-        assertEquals(msg2, "response");
-        assertEquals(terminate, "Connection terminated");
+        Assert.assertEquals(msg1, "response");
+        Assert.assertEquals(msg2, "response");
+        Assert.assertEquals(terminate, "Connection terminated");
     }
 }

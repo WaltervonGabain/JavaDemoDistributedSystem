@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DemoDistributedSystem.iml" filepath="$PROJECT_DIR$/DemoDistributedSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inputhandler/InputHandler.iml" filepath="$PROJECT_DIR$/inputhandler/InputHandler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inputsender/InputSender.iml" filepath="$PROJECT_DIR$/inputsender/InputSender.iml" />
     </modules>
   </component>
 </project>
