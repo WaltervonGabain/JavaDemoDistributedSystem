@@ -9,11 +9,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: demoserver
+      app: DemoApp
   template:
     metadata:
       labels:
-        app: demoserver
+        app: DemoApp
     spec:
       containers:
       - image: 192.168.39.35:5000/inputhandler
@@ -34,11 +34,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: demoserver
+      app: DemoApp
   template:
     metadata:
       labels:
-        app: demoserver
+        app: DemoApp
     spec:
       containers:
         - image: 192.168.39.35:5000/inputsender
@@ -52,14 +52,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: demoservice
-  labels:
-    app: demoserver
+  name: DemoApp-service
 spec:
-  type: ClusterIP
   selector:
-    app: demoserver
+    app: DemoApp
   ports:
     - protocol: TCP
       port: 8010
-      name: http
+      targetPort: 8010
