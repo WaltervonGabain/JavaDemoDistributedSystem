@@ -48,7 +48,7 @@ public class InputSender {
     public static void main(String[] args) {
         InputSender inputSender = new InputSender();
 
-        inputSender.startConnection("localhost", 8010);
+        inputSender.startConnection("10.1.0.61", 8010);
 
         while (true) {
             if (inputSender.sendMessage("message").equals("response"))
