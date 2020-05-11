@@ -19,6 +19,8 @@ spec:
       - image: 192.168.39.35:5000/inputhandler
         imagePullPolicy: Always
         name: inputhandler
+        ports:
+          - containerPort: 8010
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
